@@ -1,0 +1,11 @@
+# Ignore S3 Encryption with CMK (Using SSE-S3 for cost savings)
+AWS-0132
+AVD-AWS-0132
+
+# Ignore CloudFront WAF (Budget constraint)
+AWS-0011
+AVD-AWS-0011
+
+# Ignore CloudFront TLS Version (Default domain restriction)
+AWS-0013
+AVD-AWS-0013

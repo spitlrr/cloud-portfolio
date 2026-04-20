@@ -3,9 +3,6 @@ provider "aws" {
 }
 
 # --- PRIMARY STORAGE ---
-# trivy:ignore:AVD-AWS-0132
-# trivy:ignore:AWS-0132
-# trivy:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "portfolio_bucket" {
   bucket = "beginner-devops-portfolio-2026"
 }
