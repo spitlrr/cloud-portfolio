@@ -3,16 +3,18 @@ FROM python:3.9-alpine
 
 WORKDIR /app
 
-# 2. OS-Level Remediation: 
-# Force Alpine to download the newest security patches for musl, zlib, and openssl
+# 2. OS-Level Remediation
 RUN apk update && apk upgrade --no-cache
 
-# 3. Application-Level Remediation:
-# Upgrade core Python tools (wheel) and specific vulnerable dependencies (jaraco.context) 
-# before installing your main application requirements.
-RUN pip install --no-cache-dir --upgrade pip wheel jaraco.context flask
+# 3. Application-Level Remediation
+# First, upgrade pip itself
+RUN pip install --no-cache-dir --upgrade pip
+# Second, force-install the explicitly patched versions before app dependencies
+RUN pip install --no-cache-dir --force-reinstall "wheel>=0.46.2" "jaraco.context>=6.1.0"
+# Finally, install  application framework
+RUN pip install --no-cache-dir flask
 
-# 4. Copy your application code
+# 4. Copy application code
 COPY app.py .
 
 # 5. Principle of Least Privilege: Run as a non-root user
