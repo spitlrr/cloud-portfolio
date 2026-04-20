@@ -40,7 +40,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t my-security-api:${{ github.sha }} .
+          docker build -t my-security-api:${{ github.sha }} ./hello-docker
 
       - name: Scan Docker Image with Trivy
         uses: aquasecurity/trivy-action@master
