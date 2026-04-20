@@ -24,3 +24,7 @@ jobs:
       - name: Upload to S3
         run: |
           aws s3 sync . s3://beginner-devops-portfolio-2026 --exclude ".git/*" --exclude ".github/*" --exclude "*.tf*" --exclude ".terraform*"
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
