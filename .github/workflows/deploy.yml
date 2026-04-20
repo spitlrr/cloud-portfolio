@@ -23,7 +23,7 @@ jobs:
           format: 'table'
           exit-code: '1' # This tells the pipeline to FAIL if a security risk is found
           severity: 'CRITICAL,HIGH'
-          
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -37,3 +37,15 @@ jobs:
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+      - name: Build Docker Image
+        run: |
+          docker build -t my-security-api:${{ github.sha }} .
+
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'my-security-api:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1' # Fail the build if vulnerabilities are found
+          severity: 'CRITICAL,HIGH'
