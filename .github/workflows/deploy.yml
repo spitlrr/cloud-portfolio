@@ -15,6 +15,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1' # This tells the pipeline to FAIL if a security risk is found
+          severity: 'CRITICAL,HIGH'
+          
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

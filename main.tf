@@ -128,3 +128,8 @@ resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
     ]
   })
 }
+
+resource "aws_s3_bucket" "insecure_test" {
+  bucket = "my-insecure-test-bucket-12345"
+  # We are intentionally NOT adding encryption or public access blocks here
+}
