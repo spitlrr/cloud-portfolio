@@ -27,6 +27,18 @@ resource "aws_s3_bucket_public_access_block" "block" {
   restrict_public_buckets = true
 }
 
+# 1c. Accept risk trade-off (using Customer Managed Key (CMK) costs $)
+# trivy:ignore:aws-s3-encryption-customer-key
+resource "aws_s3_bucket" "portfolio_bucket" {
+  bucket = "YOUR_UNIQUE_BUCKET_NAME_HERE"
+}
+
+# 1d. Accept risk trade-off (using Web Application Firewall (WAF) costs $)
+# trivy:ignore:aws-cloudfront-enable-waf
+resource "aws_cloudfront_distribution" "s3_distribution" {
+  # ... existing code ...
+}
+
 # 2. The OIDC Provider (Trust GitHub)
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
