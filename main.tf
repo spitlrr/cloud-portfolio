@@ -4,7 +4,27 @@ provider "aws" {
 
 # 1. The Bucket
 resource "aws_s3_bucket" "portfolio_bucket" {
-  bucket = "beginner-devops-portfolio-2026" # Must be lowercase, no spaces
+  bucket = "beginner-devops-portfolio-2026"
+}
+
+# 1a. Enable Encryption
+resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+  bucket = aws_s3_bucket.portfolio_bucket.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# 1b. Explicitly Block Public Access
+resource "aws_s3_bucket_public_access_block" "block" {
+  bucket = aws_s3_bucket.portfolio_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 # 2. The OIDC Provider (Trust GitHub)
@@ -48,7 +68,7 @@ output "role_arn" {
   value = aws_iam_role.github_actions_role.arn
 }
 
-# 1. Create the Origin Access Control (The Security Gatekeeper)
+# 1. Create the Origin Access Control
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "s3-portfolio-oac"
   description                       = "OAC for Portfolio S3 Bucket"

@@ -1,14 +1,15 @@
-# 1. Use a minimalist "Slim" image for better security (smaller attack surface)
-FROM python:3.9-slim
+# Use Alpine for a much smaller security footprint
+FROM python:3.9-alpine
 
-# 2. Set the working directory
 WORKDIR /app
 
-# 3. Install dependencies
-RUN pip install flask
+# Alpine uses 'apk' instead of 'apt'
+RUN pip install --no-cache-dir flask
 
-# 4. Copy your code into the container
 COPY app.py .
 
-# 5. Run the app
+# Run as a non-root user (Advanced Security Tip!)
+RUN adduser -D myuser
+USER myuser
+
 CMD ["python", "app.py"]
