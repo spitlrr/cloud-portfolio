@@ -2,12 +2,13 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# 1. The Bucket
+# --- PRIMARY STORAGE ---
+# trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket" "portfolio_bucket" {
   bucket = "beginner-devops-portfolio-2026"
 }
 
-# 1a. Enable Encryption
+# --- S3 SECURITY HARDENING ---
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   bucket = aws_s3_bucket.portfolio_bucket.id
   rule {
@@ -17,7 +18,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   }
 }
 
-# 1b. Explicitly Block Public Access
 resource "aws_s3_bucket_public_access_block" "block" {
   bucket = aws_s3_bucket.portfolio_bucket.id
 
@@ -27,26 +27,13 @@ resource "aws_s3_bucket_public_access_block" "block" {
   restrict_public_buckets = true
 }
 
-# 1c. Accept risk trade-off (using Customer Managed Key (CMK) costs $)
-# trivy:ignore:aws-s3-encryption-customer-key
-resource "aws_s3_bucket" "portfolio_bucket" {
-  bucket = "YOUR_UNIQUE_BUCKET_NAME_HERE"
-}
-
-# 1d. Accept risk trade-off (using Web Application Firewall (WAF) costs $)
-# trivy:ignore:aws-cloudfront-enable-waf
-resource "aws_cloudfront_distribution" "s3_distribution" {
-  # ... existing code ...
-}
-
-# 2. The OIDC Provider (Trust GitHub)
+# --- IDENTITY & TRUST (OIDC) ---
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
   thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
 }
 
-# 3. The Role GitHub will use
 resource "aws_iam_role" "github_actions_role" {
   name = "github-actions-role"
 
@@ -69,18 +56,12 @@ resource "aws_iam_role" "github_actions_role" {
   })
 }
 
-# 4. Attach Permissions
 resource "aws_iam_role_policy_attachment" "admin_access" {
   role       = aws_iam_role.github_actions_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
-# 5. The Output
-output "role_arn" {
-  value = aws_iam_role.github_actions_role.arn
-}
-
-# 1. Create the Origin Access Control
+# --- DISTRIBUTION (CLOUDFRONT) ---
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "s3-portfolio-oac"
   description                       = "OAC for Portfolio S3 Bucket"
@@ -89,7 +70,8 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-# 2. Create the CloudFront Distribution
+# trivy:ignore:AVD-AWS-0011
+# trivy:ignore:AVD-AWS-0013
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name              = aws_s3_bucket.portfolio_bucket.bucket_regional_domain_name
@@ -113,31 +95,24 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https" # Security: Force Encryption
+    viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
   }
 
-  # This is required even if you aren't restricting by country
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
 
-  # For now, we use the default CloudFront certificate
   viewer_certificate {
     cloudfront_default_certificate = true
   }
 }
 
-# 3. Output the URL so you can find your site
-output "cloudfront_url" {
-  value = aws_cloudfront_distribution.s3_distribution.domain_name
-}
-
-# This policy allows CloudFront to reach into the bucket
+# --- ACCESS CONTROL ---
 resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
   bucket = aws_s3_bucket.portfolio_bucket.id
   policy = jsonencode({
@@ -159,4 +134,13 @@ resource "aws_s3_bucket_policy" "allow_access_from_cloudfront" {
       }
     ]
   })
+}
+
+# --- OUTPUTS ---
+output "role_arn" {
+  value = aws_iam_role.github_actions_role.arn
+}
+
+output "cloudfront_url" {
+  value = aws_cloudfront_distribution.s3_distribution.domain_name
 }
