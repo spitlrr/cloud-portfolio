@@ -1,15 +1,215 @@
-<section id="about">
-    <h1>Samuel Spitler</h1>
-    <h3>Cybersecurity Engineer | Infrastructure Automation</h3>
-    <p>
-        Graduate at the <strong>University of Kansas</strong> with a B.S. in Applied Cybersecurity (4.0 Major GPA). 
-    </p>
-    <p>
-        Currently specializing in <strong>DevSecOps</strong> and infrastructure hardening. My work involves automating security baselines using 
-        <strong>Ansible</strong>, <strong>Packer</strong>, and <strong>Terraform</strong> to create resilient, "secure-by-default" cloud environments.
-    </p>
-    <ul>
-        <li><strong>Certifications in Progress:</strong> CompTIA Security+, AWS Cloud Practitioner</li>
-        <li><strong>Core Tech:</strong> Linux (Rocky/Ubuntu), AWS, Docker, Python, Bash</li>
-    </ul>
-</section>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel Spitler - Professional Portfolio</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #ebf8ff;
+            --text: #2d3748;
+            --light-text: #718096;
+            --bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f7fafc;
+        }
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .contact-info {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+        .header-highlights {
+            background: var(--accent);
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        h2 {
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            margin-top: 40px;
+            background: #edf2f7;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        .job-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--secondary);
+        }
+        .date {
+            float: right;
+            color: var(--light-text);
+            font-style: italic;
+        }
+        .location {
+            color: var(--light-text);
+            margin-bottom: 5px;
+        }
+        .project, .experience {
+            margin-bottom: 25px;
+        }
+        ul {
+            margin-top: 5px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .skill-category {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Samuel Spitler</h1>
+        <div class="contact-info">
+            913.205.0048 | spitler.samuel@gmail.com
+        </div>
+        <div class="header-highlights">
+            Applied Cybersecurity Senior @ University of Kansas | Major GPA: 4.0 | ICCAE Scholar
+        </div>
+    </header>
+
+    <section id="education">
+        <h2>Education</h2>
+        <div class="experience">
+            <span class="date">Expected May 2026</span>
+            <div class="job-title">UNIVERSITY OF KANSAS</div>
+            <div class="location">Lawrence, KS</div>
+            <p>Bachelor of Applied Science, Applied Cybersecurity</p>
+            <ul>
+                <li>Overall GPA: 3.61 | Major GPA: 4.0</li>
+                <li>Minor: Intelligence and National Security Studies (Minor GPA: 3.8)</li>
+                <li><strong>Relevant Coursework:</strong> Computer Networks, Operating Systems, Network Security, Cyber Defense and Countermeasures, Testing and Vulnerability Analysis, Cloud Computing, Applied Artificial Intelligence, Introduction to Cyber Intelligence, Intelligence Analytics, Counterintelligence</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Technical Projects</h2>
+        
+        <div class="project">
+            <div class="job-title">DevSecOps: Cloud-Native Portfolio & CI/CD Pipeline</div>
+            <ul>
+                <li>Architected a secure AWS infrastructure using Terraform, S3, and CloudFront with Origin Access Control (OAC).</li>
+                <li>Integrated <strong>Trivy</strong> into GitHub Actions for automated IaC scanning and Docker container vulnerability assessments.</li>
+                <li>Implemented OIDC for passwordless, least-privilege authentication between GitHub and AWS.</li>
+                <li>Remediated Critical/High CVEs in Python/Alpine containers through dependency pinning and attack surface reduction.</li>
+            </ul>
+        </div>
+
+        <div class="project">
+            <div class="job-title">Infrastructure as Code (IaC) for Security Baseline Automation</div>
+            <ul>
+                <li>Utilized <strong>Packer</strong> and <strong>Vagrant</strong> to provision secure Rocky Linux virtual machine images, reducing deployment time and ensuring environment parity.</li>
+                <li>Authored <strong>Ansible</strong> playbooks to automate CIS Benchmark applications, hardening infrastructure upon boot.</li>
+                <li>Managed complex codebase via GitHub, implementing branching strategies within a DevSecOps workflow.</li>
+                <li>Automated Public Key Infrastructure (PKI) workflows by federating GitHub SSH keys, streamlining secure remote access.</li>
+            </ul>
+        </div>
+
+        <div class="project">
+            <div class="job-title"> Home Lab Environment</div>
+            <ul>
+                <li>Architected a multi-node lab using Dell OptiPlex and Ubuntu Server, deploying containerized UISP/UniFi management suites.</li>
+                <li>Configured UISP Router Pro for internal traffic management and VLAN segmentation.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        <div class="experience">
+            <span class="date">October 2025 - Present</span>
+            <div class="job-title">Cybersecurity/IT Intern</div>
+            <div class="location">PETERSON LAW FIRM | Kansas City, MO</div>
+            <ul>
+                <li>Consult on security infrastructure hardening and technical controls to mitigate organizational risk.</li>
+                <li>Audit and capture critical business data points within CRM in collaboration with executive leadership.</li>
+                <li>Define SOPs for generating comprehensive client data reports.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div>
+                <p><span class="skill-category">IaC & Automation:</span> Ansible, Packer, Vagrant, Terraform, Git/GitHub</p>
+                <p><span class="skill-category">Systems & Security Engineering:</span> Linux (Rocky/Ubuntu), Windows Server (AD/GPO), Security Baseline Automation (CIS), pfSense</p>
+                <p><span class="skill-category">Programming:</span> Python, PowerShell, Bash</p>
+            </div>
+            <div>
+                <p><span class="skill-category">Virtualization & Containerization:</span> VMware Workstation, VirtualBox, Docker, Hyper-V</p>
+                <p><span class="skill-category">Cloud & Security:</span> AWS (S3, CloudFront, IAM, OIDC), CIS Benchmarks, Trivy</p>
+                <p><span class="skill-category">Networking:</span> Cisco Managed Switches, VLAN Segmentation, UISP/UniFi Integration, Firewall Management</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications">
+        <h2>Certifications</h2>
+        <ul>
+            <li>ISC2 Certified in Cybersecurity (CC)</li>
+            <li>CompTIA Security+ (Expected May 2026)</li>
+            <li>AWS Certified Cloud Practitioner (Expected May 2026)</li>
+        </ul>
+        <h2>Awards</h2>
+        <ul>
+            <li>ICCAE Scholar (Intelligence Community Centers for Academic Excellence)</li>
+            <li>University of Kansas Honor Roll (2023 - 2025)</li>
+            <li>Presidential Service Award 2017-2021</li>
+            <li>CPR Certified</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>Samuel Spitler | Cybersecurity Portfolio | Last Updated: April 2026</p>
+    </footer>
+
+</body>
+</html>
